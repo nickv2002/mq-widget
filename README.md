@@ -2,6 +2,8 @@
 
 A Chromium extension (Brave, Chrome, Edge) that shows the number of pull requests in a GitHub [merge queue](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue) on the toolbar button. It refreshes every minute, and clicking the button opens the queue page.
 
+![The toolbar button showing 5 items in the merge queue, with a tooltip reading "5 in merge queue, est. wait 6m"](docs/screenshot.png)
+
 ## What you see
 
 | Badge | Meaning |
