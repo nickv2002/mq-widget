@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Merge Queue Badge",
+  "version": "1.0.0",
+  "description": "Shows the number of items in a GitHub merge queue on the toolbar button.",
+  "permissions": ["alarms", "storage", "contextMenus"],
+  "host_permissions": ["https://api.github.com/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": {
+    "default_title": "Merge queue",
+    "default_icon": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" }
+  },
+  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "icons": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" }
+}

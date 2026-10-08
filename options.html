@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Merge Queue Badge options</title>
+  <style>
+    :root { color-scheme: light dark; --muted: #6b7280; }
+    body { font: 14px/1.5 system-ui, sans-serif; max-width: 640px; margin: 32px auto; padding: 0 16px; }
+    label { display: block; margin-top: 16px; font-weight: 600; }
+    input { width: 100%; box-sizing: border-box; padding: 6px 8px; font: inherit; }
+    small { color: var(--muted); display: block; margin-top: 4px; }
+    .row { display: flex; gap: 12px; } .row > div { flex: 1; }
+    button { margin: 20px 8px 0 0; padding: 6px 14px; font: inherit; }
+    #status { margin-top: 16px; min-height: 1.5em; }
+    #status.err { color: #dc2626; } #status.ok { color: #16a34a; }
+    code { font-size: 13px; }
+    details { margin-top: 16px; padding: 8px 12px; border: 1px solid color-mix(in srgb, currentColor 25%, transparent); border-radius: 6px; }
+    summary { cursor: pointer; font-weight: 600; }
+    pre { padding: 8px; background: color-mix(in srgb, currentColor 8%, transparent); overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>Merge Queue Badge</h1>
+  <form id="form">
+    <label for="queueUrl">Merge queue URL</label>
+    <input id="queueUrl" type="url" required placeholder="https://github.com/your-org/your-repo/queue/main">
+    <small>Open your repository's merge queue page on GitHub and paste its address: <code>https://github.com/&lt;owner&gt;/&lt;repo&gt;/queue/&lt;branch&gt;</code></small>
+
+    <label for="token">GitHub token</label>
+    <input id="token" type="password" autocomplete="off" spellcheck="false">
+    <small>Stored only in this browser (not synced) and only sent to api.github.com. It needs read access to pull requests; see below.</small>
+
+    <details id="help" open>
+      <summary>How to get a token</summary>
+      <p><strong>Option 1: GitHub CLI (quickest).</strong> Run this in a terminal and paste the output above. It already has the right access, including SSO for your organization.</p>
+      <pre><code>gh auth login   # only if you aren't logged in yet
+gh auth token</code></pre>
+      <p><strong>Option 2: fine-grained token.</strong> <a id="fineLink" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">Create one with the permissions prefilled</a> (read-only Pull requests, Contents and Metadata<span id="orgNote"></span>). On that page:</p>
+      <ol>
+        <li>Under <em>Repository access</em>, choose <em>Only select repositories</em> and pick the repository that owns the queue.</li>
+        <li>Click <em>Generate token</em>, copy it, and paste it above. If your organization requires approval for tokens, an admin has to approve it before it works.</li>
+      </ol>
+      <p><strong>Option 3: classic token.</strong> <a href="https://github.com/settings/tokens/new?scopes=repo&amp;description=Merge%20Queue%20Badge" target="_blank" rel="noreferrer">Create one with the <code>repo</code> scope</a>. If your organization uses SSO, click <em>Configure SSO</em> next to the token and authorize it.</p>
+      <p>If the count shows but the wait time is missing, the token can't read pull requests. Press <em>Test</em> for details.</p>
+    </details>
+
+    <div class="row">
+      <div>
+        <label for="maxCount">Red when more than N items</label>
+        <input id="maxCount" type="number" min="0" required>
+      </div>
+      <div>
+        <label for="maxWaitMinutes">Red when wait is over N minutes</label>
+        <input id="maxWaitMinutes" type="number" min="0" step="any" required>
+      </div>
+    </div>
+
+    <button type="submit" id="save">Save</button>
+    <button type="button" id="test">Test</button>
+    <button type="button" id="reset">Reset thresholds</button>
+  </form>
+  <div id="status" role="status"></div>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
